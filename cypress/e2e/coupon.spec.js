@@ -16,7 +16,7 @@ describe('Coupon Test', () => {
     couponPage.createCoupon(); // Creates a new random coupon
   });
 
-  it('verify can not users to create a coupon with an existing code', () => {
+  it('verify users can not create a coupon with an existing code', () => {
     couponPage.createDuplicateCoupon(); //  Attempt with an existing code
   });
 
@@ -24,7 +24,18 @@ describe('Coupon Test', () => {
     couponPage.verifyCouponStatus(); // Check all coupon status
   });
 
-  it('verify users are able to use the search coupon code', () => {
-    couponPage.searchCoupon(); // Check all coupon status
+  it('should allow users to search for a coupon by code', function () {
+    couponPage.createCoupon();
+    cy.get('@couponCode').then((code) => {
+      couponPage.searchCoupon(code);
+    });
   });
+
+  it('should allow users to delete a coupon', function () {
+    couponPage.createCoupon();
+    cy.get('@couponCode').then((code) => {
+      couponPage.deleteCoupon(code);
+    });
+  });
+  
 });
